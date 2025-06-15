@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semalotto Cafe</title>
+    <!-- Google Fonts'tan alternatif fontlar -->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- TEMEL AYARLAR --- */
+        :root {
+            --soft-pink: #F8C8DC; /* Daha soft bir pembe */
+            --softer-pink: #FAE3EA; /* Çok daha soft, neredeyse beyazımsı pembe */
+            --soft-green: #D0F0C0; /* Soft yeşil */
+            --dark-text: #5D4037; /* Koyu kahverengi - metinler için */
+            --accent-color: #E91E63; /* Pembe bir vurgu rengi */
+            --font-heading: 'Shintosa Script', 'Pacifico', cursive; /* Shintosa yoksa Pacifico veya genel cursive */
+            --font-body: 'Open Sans', sans-serif;
+        }
+
+        /* 
+        Shintosa Script Font Tanımlaması (Eğer font dosyalarınız varsa)
+        Aşağıdaki @font-face kuralını aktif edin ve 'fonts/' klasöründeki font dosyalarınızın yollarını doğru girin.
+        @font-face {
+            font-family: 'Shintosa Script';
+            src: url('fonts/ShintosaScript-Regular.woff2') format('woff2'),
+                 url('fonts/ShintosaScript-Regular.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        */
+
+        body {
+            font-family: var(--font-body);
+            margin: 0;
+            padding: 0;
+            color: var(--dark-text);
+            line-height: 1.6;
+            background-color: var(--softer-pink); /* Arka planı çok soft bir pembe yapalım */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-heading);
+            color: var(--accent-color); /* Başlıkları pembe vurgu rengiyle yapalım */
+        }
+
+        h2 {
+            font-size: 2.8em;
+            text-align: center;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+
+        h3 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .section-padding {
+            padding: 60px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-family: var(--font-body);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn:hover {
+            background-color: #d81b60;
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--softer-pink);
+            color: var(--accent-color);
+        }
+
+        /* --- HEADER --- */
+        header {
+            background-color: #fff;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2.5em;
+            margin: 0;
+            color: var(--accent-color);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: var(--dark-text);
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active { /* Aktif link için (JavaScript ile eklenebilir) */
+            color: var(--accent-color);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            /* Kendi görselinizi images/hero-bg.jpg olarak ekleyin veya yolu değiştirin */
+            background: linear-gradient(rgba(248, 200, 220, 0.7), rgba(248, 200, 220, 0.7)), url('images/hero-bg.jpg') no-repeat center center/cover;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+        }
+
+        .hero-content h2 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.4em;
+            margin-bottom: 30px;
+            font-family: var(--font-body);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* --- HAKKIMIZDA BÖLÜMÜ --- */
+        #hakkimizda {
+            background-color: #fff;
+        }
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        .about-image {
+            /* Kendi görselinizi images/cafe-interior.jpg olarak ekleyin veya yolu değiştirin */
+            width: 45%;
+            max-width: 400px;
+            border-radius: 15px;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+        }
+        .about-content div {
+            flex: 1;
+        }
+        .special-text {
+            font-family: var(--font-heading);
+            font-size: 1.5em;
+            color: var(--soft-green);
+            line-height: 1.4;
+            margin-bottom: 20px;
+            padding-left: 20px;
+            border-left: 4px solid var(--soft-green);
+        }
+
+
+        /* --- MENÜ BÖLÜMÜ --- */
+        .menu-section {
+            background-color: var(--softer-pink);
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-item {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .menu-item img {
+            /* Kendi menü görsellerinizi images/menu-itemX.jpg olarak ekleyin veya yolları değiştirin */
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .menu-item h3 {
+            color: var(--dark-text);
+            font-size: 1.6em;
+        }
+
+        .menu-item p {
+            font-size: 0.95em;
+            color: #777;
+        }
+
+        .price {
+            display: block;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-top: 10px;
+            font-family: var(--font-body);
+        }
+
+        /* --- GALERİ BÖLÜMÜ --- */
+        #galeri {
+            background-color: #fff;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-grid img {
+            /* Kendi galeri görsellerinizi images/galleryX.jpg olarak ekleyin veya yolları değiştirin */
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 3px solid var(--softer-pink);
+        }
+
+        .gallery-grid img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        /* --- İLETİŞİM BÖLÜMÜ --- */
+        .contact-section {
+            background-color: var(--soft-green);
+            color: var(--dark-text);
+        }
+
+        .contact-section h2 {
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .contact-info {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .contact-info p {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        .contact-info a {
+            color: var(--dark-text);
+            font-weight: bold;
+        }
+        .contact-info a:hover {
+            color: var(--accent-color);
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .contact-form h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--dark-text);
+        }
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box; /* Önemli */
+            font-family: var(--font-body);
+        }
+        .contact-form textarea {
+            resize: vertical;
+        }
+        .contact-form button {
+            width: 100%;
+        }
+
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--dark-text);
+            color: var(--softer-pink);
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 0;
+        }
+
+        /* --- MOBİL UYUMLULUK --- */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .logo {
+                margin-bottom: 15px;
+                text-align: center;
+            }
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+            nav ul li {
+                margin: 10px 0;
+                width: 100%;
+                text-align: center;
+            }
+            nav ul li a {
+                display: block; /* Tam genişlik kaplaması için */
+                padding: 5px 0;
+            }
+
+            .hero-content h2 {
+                font-size: 2.5em;
+            }
+            .hero-content p {
+                font-size: 1.1em;
+            }
+
+            .about-content {
+                flex-direction: column;
+            }
+            .about-image {
+                width: 80%;
+                max-width: 300px; /* Mobil için maksimum genişlik */
+                margin-bottom: 20px;
+            }
+
+            h2 {
+                font-size: 2.2em;
+            }
+            .menu-grid {
+                grid-template-columns: 1fr; /* Mobilde tek sütun */
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Mobilde daha küçük galeri öğeleri */
+            }
+            .gallery-grid img {
+                height: 150px;
+            }
+            .contact-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="logo">Semalotto Cafe</h1>
+            <nav>
+                <ul>
+                    <li><a href="#anasayfa">Anasayfa</a></li>
+                    <li><a href="#hakkimizda">Hakkımızda</a></li>
+                    <li><a href="#menu">Menü</a></li>
+                    <li><a href="#galeri">Galeri</a></li>
+                    <li><a href="#iletisim">İletişim</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="anasayfa" class="hero">
+        <div class="hero-content">
+            <h2>Hayallerinizin Ötesinde Bir Lezzet Durağı</h2>
+            <p>Semalotto Cafe'ye hoş geldiniz! Tatlı anlarınıza eşlik edecek, huzurlu bir mola...</p>
+            <a href="#menu" class="btn">Menümüzü Keşfedin</a>
+        </div>
+    </section>
+
+    <section id="hakkimizda" class="container section-padding">
+        <h2>Hakkımızda</h2>
+        <div class="about-content">
+            <!-- Görselinizi images/cafe-interior.jpg olarak ekleyin veya yolu güncelleyin -->
+            <img src="images/cafe-interior.jpg" alt="Semalotto Cafe İç Mekan" class="about-image">
+            <div>
+                <p class="special-text">Semalotto Cafe olarak, en taze malzemelerle hazırladığımız lezzetleri, sıcak ve samimi bir atmosferde sunuyoruz. Pembe ve soft yeşilin huzur veren tonlarıyla dekore edilmiş mekanımızda, kahvenizi yudumlarken keyifli zaman geçirebilirsiniz.</p>
+                <p>Misyonumuz, misafirlerimize sadece bir fincan kahve değil, aynı zamanda unutulmaz anlar yaşatmaktır. Her bir detayı özenle düşündüğümüz cafemizde, sizleri ağırlamaktan mutluluk duyarız.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="section-padding menu-section">
+        <div class="container">
+            <h2>Menümüzden Seçmeler</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <!-- Görselinizi images/menu-item1.jpg olarak ekleyin veya yolu güncelleyin -->
+                    <img src="images/menu-item1.jpg" alt="Özel Kahve">
+                    <h3>Semalotto Özel Kahvesi</h3>
+                    <p>Günün yorgunluğunu atacağınız, özel harmanımız.</p>
+                    <span class="price">25 TL</span>
+                </div>
+                <div class="menu-item">
+                    <!-- Görselinizi images/menu-item2.jpg olarak ekleyin veya yolu güncelleyin -->
+                    <img src="images/menu-item2.jpg" alt="Çilekli Pasta">
+                    <h3>Çilekli Rüyası Pasta</h3>
+                    <p>Taptaze çilekler ve yumuşacık krema.</p>
+                    <span class="price">35 TL</span>
+                </div>
+                <div class="menu-item">
+                    <!-- Görselinizi images/menu-item3.jpg olarak ekleyin veya yolu güncelleyin -->
+                    <img src="images/menu-item3.jpg" alt="Limonata">
+                    <h3>Ev Yapımı Limonata</h3>
+                    <p>Serinletici ve doğal lezzet.</p>
+                    <span class="price">20 TL</span>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="#" class="btn btn-secondary">Tüm Menüyü Gör</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="galeri" class="container section-padding">
+        <h2>Galerimizden Kareler</h2>
+        <div class="gallery-grid">
+            <!-- Görsellerinizi images/galleryX.jpg olarak ekleyin veya yolları güncelleyin -->
+            <img src="images/gallery1.jpg" alt="Cafe Detay 1">
+            <img src="images/gallery2.jpg" alt="Cafe Detay 2">
+            <img src="images/gallery3.jpg" alt="Cafe Detay 3">
+            <img src="images/gallery4.jpg" alt="Cafe Detay 4">
+        </div>
+    </section>
+
+    <section id="iletisim" class="section-padding contact-section">
+        <div class="container">
+            <h2>Bize Ulaşın</h2>
+            <div class="contact-info">
+                <p><strong>Adres:</strong> Hayal Sokak, No: 123, Mutluluk Mahallesi, İstanbul</p>
+                <p><strong>Telefon:</strong> <a href="tel:+905551234567">0555 123 45 67</a></p>
+                <p><strong>E-posta:</strong> <a href="mailto:info@semalottocafe.com">info@semalottocafe.com</a></p>
+            </div>
+            <form class="contact-form">
+                <h3>Mesaj Bırakın</h3>
+                <input type="text" placeholder="Adınız Soyadınız" required>
+                <input type="email" placeholder="E-posta Adresiniz" required>
+                <textarea placeholder="Mesajınız" rows="5" required></textarea>
+                <button type="submit" class="btn">Gönder</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 Semalotto Cafe. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
